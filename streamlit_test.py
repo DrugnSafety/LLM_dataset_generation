@@ -14,13 +14,46 @@ st.set_page_config(page_title="Patient Data Processing", layout="wide")
 # ---------------------------------------------------------------------
 # (1) Google Sheets, DB 연동 설정
 # ---------------------------------------------------------------------
-json_file_name = "crfspreadsheet-cb06c09c617b.json"  # 실제 파일 경로
-scopes = [
-    "https://spreadsheets.google.com/feeds",
-    "https://www.googleapis.com/auth/drive",
-]
-credentials = Credentials.from_service_account_file(json_file_name, scopes=scopes)
-gc = gspread.authorize(credentials)
+# json_file_name = "crfspreadsheet-cb06c09c617b.json"  # 실제 파일 경로
+# scopes = [
+#     "https://spreadsheets.google.com/feeds",
+#     "https://www.googleapis.com/auth/drive",
+# ]
+# credentials = Credentials.from_service_account_file(json_file_name, scopes=scopes)
+# gc = gspread.authorize(credentials)
+
+# 새 코드: 파일 업로드를 통한 인증 처리
+st.sidebar.header("Google API 인증")
+uploaded_file = st.sidebar.file_uploader("Google 서비스 계정 JSON 파일 업로드", type=["json"])
+
+def authenticate_google_api(json_content):
+    scopes = [
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive",
+    ]
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(suffix='.json', delete=False) as temp_file:
+        temp_file.write(json_content)
+        temp_file_path = temp_file.name
+    try:
+        credentials = Credentials.from_service_account_file(temp_file_path, scopes=scopes)
+        gc = gspread.authorize(credentials)
+        return gc
+    finally:
+        if os.path.exists(temp_file_path):
+            os.unlink(temp_file_path)
+
+if "gc" not in st.session_state:
+    st.session_state.gc = None
+
+if uploaded_file is not None:
+    try:
+        json_content = uploaded_file.getvalue()
+        st.session_state.gc = authenticate_google_api(json_content)
+        st.sidebar.success("Google API 인증 성공!")
+    except Exception as e:
+        st.sidebar.error(f"인증 실패: {e}")
+        st.session_state.gc = None
 
 DB_PARAMS = {
     "host": "222.116.163.76",
@@ -343,8 +376,11 @@ def load_diagnosis_data(pid: str, doc) -> pd.DataFrame:
 
 
 if st.sidebar.button("Load Data"):
+    if st.session_state.gc is None:
+        st.error("Google API 인증 파일을 업로드해 주세요.")
+        st.stop()
     try:
-        doc = gc.open_by_url(input_spreadsheet_url)
+        doc = st.session_state.gc.open_by_url(input_spreadsheet_url)
         pid = str(patient_id).zfill(8)
 
         # (A) 환자 demographics
@@ -361,7 +397,6 @@ if st.sidebar.button("Load Data"):
 
         df_demo["병원등록번호"] = df_demo["병원등록번호"].apply(
             lambda x: str(x).zfill(8) if pd.notnull(x) else ""
-        )
         df_demo_filtered = df_demo[df_demo["병원등록번호"] == pid]
         st.session_state.df_patient_demographic = df_demo_filtered
 
@@ -441,26 +476,20 @@ st.sidebar.subheader("Patient Demographics")
 
 if not st.session_state.df_patient_demographic.empty:
     pat_info = st.session_state.df_patient_demographic.iloc[0]
-    name = st.sidebar.text_input("성명", value=pat_info.get("성명", ""))
-    research_id = st.sidebar.text_input(
-        "연구등록번호", value=pat_info.get("연구등록번호", "")
-    )
-    hospital_id = st.sidebar.text_input(
-        "병원등록번호", value=pat_info.get("병원등록번호", "")
-    )
-    birth_date = st.sidebar.text_input(
-        "생년월일_new", value=pat_info.get("생년월일_new", "")
-    )
-
+    full_name = pat_info.get("성명", "")
+    initial_name = get_initial(full_name)  # 초성 변환 함수 호출
+    name = st.sidebar.text_input("성명 (초성)", value=initial_name)
+    research_id = st.sidebar.text_input("연구등록번호", value=pat_info.get("연구등록번호", ""))
+    hospital_id = st.sidebar.text_input("병원등록번호", value=pat_info.get("병원등록번호", ""))
+    birth_date = st.sidebar.text_input("생년월일_new", value=pat_info.get("생년월일_new", ""))
     raw_gender = pat_info.get("성별", "M")
     if raw_gender not in ["M", "F"]:
         raw_gender = "M"
-    gender = st.sidebar.selectbox(
-        "성별", ["M", "F"], index=["M", "F"].index(raw_gender)
-    )
+    gender = st.sidebar.selectbox("성별", ["M", "F"], index=["M", "F"].index(raw_gender))
 
     if st.sidebar.button("Update Patient Info"):
-        st.session_state.df_patient_demographic.at[0, "성명"] = name
+        # 업데이트 시 입력된 초성으로 변경되지만, 원래 full name은 별도 조정 필요
+        st.session_state.df_patient_demographic.at[0, "성명"] = name  
         st.session_state.df_patient_demographic.at[0, "연구등록번호"] = research_id
         st.session_state.df_patient_demographic.at[0, "병원등록번호"] = hospital_id
         st.session_state.df_patient_demographic.at[0, "생년월일_new"] = birth_date
@@ -967,7 +996,7 @@ def show_final_json():
     st.json(final_output)
 
     if st.button("output sheet upload"):
-        doc_out = gc.open_by_url(output_spreadsheet_url)
+        doc_out = st.session_state.gc.open_by_url(output_spreadsheet_url)
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         # (1) baseline_characteristics
