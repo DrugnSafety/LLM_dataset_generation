@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "starlit-hangar-393004",
+  "private_key_id": "12301ecb63f5f4eefc0522340dbcc0fa5d72e5cf",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCSBtSaWVZUnUoU\nvfbSCdiDDJ7MaWt6CmUfvQ7bBSOtCRUsobPeltGqF211MOl/OCqWcI5ixmZ1eIeg\nRpPzF6MNpDErhikNXdgnAOqMRjHInSV0zvUVkpHel3JOcIJAjf1q8xkJwItTiPaV\nBY3AYR/ia0BjjLjPmI8P59EU6j0t8/iq8Z6tda1ZBmEzwKVLFNzo7+2FMXrLR3x1\nQBsLWHeWm7gdNEJpyPHt2MpdXtYRlMp5IskD3Xd6WPM0atp0CSqUoFttvTYy3Eal\nlN5qOIEmI0FESXZaS3MUyNnXobEWj4z+dTU2UBmbvJvHeslbg+02j11hogsMr+b3\nuy57tGSdAgMBAAECgf8KhVcE5E5wdOSomeq8xYcMzaMVFy38gIpW24EaDbaETz+p\nE/1v0zUPDC9IeyE7JbRdlDA8QvKtEjrsNNQ7IT/zgsR57IXsN7o+o2B7nlowxK/u\nLFBfr0wohIfwrQ4KtRPF9i+evSQwNebjgGZ9PPPysY6cufiWw4OLMAwZPMcrpL4i\nRy+2ZqHq+1ymri0r9nJ8giaPy0bR5ZnHEaDseN99RJZyqYPZjrvZ6Uqgi4nXcqI4\nzyo6FnVQCqgs1PeSCx5+1gVzcFjsM/EiuS83g5XIBPmulScO0uqbLiMe6hBnM7NZ\nDg/jQyca1jypII1j7bj/Xj6kWrd2OhslFU9YcAECgYEAzfs3c9L8b7DdooZ4aw9/\nn8ssQ3KB8Ud4l9AZVNkZNrwRXS0SsJ8kdbKAum1iwBGyHPIKxfgMOOI5fzS2rREb\naF1yb6wmxvbV8i1LNXZNsXcGCZ9llGyebC2RUme88o7ZfEeKUTIua0P/q44eOWyt\nKn70dUEy2MP/uR0wZp1yxgECgYEAtXyMFWTUESK3XfzjS7UGer05R/GGmasJ05Ka\n96YNpBZFbk3R5CGJ4PfJvnC17rSCorDA6FPgaNgf4AbMa6guNhwK/V0g8e1ynmv4\nG+cjiUWRLF3qzj4yAnnscMDp48M/a8gwxG0fk6gTLrdkZtKS4QsqDP9x7eU6zbRx\n9loM9p0CgYEAyNFBUOTEQ8g1bLyZLhegH5QfhWpgEXHSun+iErzN/jUA4MyOyi99\nhloPcrIucn9OHTZFFpksoVC9Ka2k47on9GoWpZU7AQOptkA+cNL0EC6wbjU+/aOg\nGGucoLCO4BQxKR8+VMcNxno3C3S1NtsjQKkhgCeegQMlj75Lb9/VBAECgYBLKYfC\nnH2Pkzcp/8AK7LAASTnd59N89O8e5oqzodvoZyjeI/CXcKRvvW+aJYfTkoK/6kAa\neBJqmYep+mbS91YcJsUOZXFtgI+FuOWKeNGo2lzjaQoD3JJNoD0h/WNgZs5vTvuT\nfjYjquo24ND+HJukBEGoHGsMwXD3HJJOGsFfqQKBgQC/ZriscRJ/Yu9n8rVRF0XN\n3WT2yaqW28cXkRYz84oXc2u7MkR5RyOMVgyElQHwY01WZZ5sykDxMvtkTgB6yEb1\nnIaT8u7T2QfQEaEz0RwAS5nvTnKv2LYnudvyZgdf1TNyKZ+oMo4cX6fe7/vdPls4\nPYqemjfWDLrFqGJBW3EV2g==\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-spreadsheet-project@starlit-hangar-393004.iam.gserviceaccount.com",
+  "client_id": "115755914458481710247",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-spreadsheet-project%40starlit-hangar-393004.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
