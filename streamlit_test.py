@@ -19,7 +19,7 @@ st.set_page_config(page_title="Patient Data Processing", layout="wide")
 # (1) Google Sheets, DB 연동 설정
 # ---------------------------------------------------------------------
 # 서비스 계정 JSON 파일 경로 및 필요한 스코프 설정
-json_file_name = "crfspreadsheet-cb06c09c617b.json"  # 실제 JSON 파일 경로 (구글 API 인증 정보)
+json_file_name = "starlit-hangar-393004-12301ecb63f5,json"  # 실제 JSON 파일 경로 (구글 API 인증 정보)
 scopes = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive",
