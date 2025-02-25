@@ -27,21 +27,16 @@ st.sidebar.header("Google API 인증")
 uploaded_file = st.sidebar.file_uploader("Google 서비스 계정 JSON 파일 업로드", type=["json"])
 
 def authenticate_google_api(json_content):
+    import json
     scopes = [
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive",
     ]
-    import tempfile, os
-    with tempfile.NamedTemporaryFile(suffix='.json', delete=False) as temp_file:
-        temp_file.write(json_content)
-        temp_file_path = temp_file.name
-    try:
-        credentials = Credentials.from_service_account_file(temp_file_path, scopes=scopes)
-        gc = gspread.authorize(credentials)
-        return gc
-    finally:
-        if os.path.exists(temp_file_path):
-            os.unlink(temp_file_path)
+    # JSON 파일의 내용을 디코딩하여 dict 객체로 만든 후 바로 인증 수행
+    data = json.loads(json_content.decode("utf-8"))
+    credentials = Credentials.from_service_account_info(data, scopes=scopes)
+    gc = gspread.authorize(credentials)
+    return gc
 
 if "gc" not in st.session_state:
     st.session_state.gc = None
