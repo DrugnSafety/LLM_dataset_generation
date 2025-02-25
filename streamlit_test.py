@@ -397,6 +397,7 @@ if st.sidebar.button("Load Data"):
 
         df_demo["병원등록번호"] = df_demo["병원등록번호"].apply(
             lambda x: str(x).zfill(8) if pd.notnull(x) else ""
+        )
         df_demo_filtered = df_demo[df_demo["병원등록번호"] == pid]
         st.session_state.df_patient_demographic = df_demo_filtered
 
