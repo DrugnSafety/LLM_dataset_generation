@@ -216,8 +216,9 @@ patient_id = st.sidebar.text_input("환자등록번호", value="")
 def reset_session():
     for key in list(st.session_state.keys()):
         del st.session_state[key]
-    st.experimental_set_query_params()
-    st.experimental_rerun()
+    st.set_query_params()  # query params 초기화 (빈 값으로 설정)
+    from streamlit.runtime.scriptrunner import RerunException, get_script_run_ctx
+    raise RerunException(get_script_run_ctx())
 
 
 if st.sidebar.button("Reset"):
